@@ -1,15 +1,22 @@
 ---
-title: "OWL Cloud"
-author: "Edward Lv"
+title: "Edward's Owl"
+#author: "Edward Lv"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-    logo: owl_logo.png
-    css: styles.css
+    logo: images/owl_logo_48.png
+    css: styles/styles.css
+    theme: lumen
+    #theme ("default", "bootstrap", "cerulean", "journal",
+    #"flatly", "readable", "spacelab", "united", "cosmo", "lumen", "paper",
+    #"sandstone", "simplex", or "yeti")
     navbar:
-        - { title: "关于",icon: glyphicon glyphicon-list-alt,align: right }
+        - { title: "关于",icon: "fa-tree",align: right}
+    #includes: 
+    #        after_body: "footer.html"
     runtime: shiny
+
 ---
 
 ```{r setup, include=FALSE}
@@ -18,10 +25,10 @@ library(dplyr)
 
 knitr::opts_chunk$set(echo = TRUE,fig.width=7, fig.height=5)
 
-load("../data_space/main_indicator.data")
-load("../data_space/balance_sheet.data")
+load("../owl_data/main_indicator.data")
+load("../owl_data/balance_sheet.data")
 
-source("../functions/resource.R")
+source("../owl_function/show_statement.R")
 options(digits = 8)
 
 m <- main_indicator %>% 
@@ -105,7 +112,7 @@ output$plot1 <- renderPlot({
 renderPlot({ggplot(mtcars2, aes(wt, mpg)) + geom_point()})
 ```
 
-板块分析 {data-orientation=rows data-icon="glyphicon-time"}
+板块分析 {data-orientation=rows data-icon="fa-pie-chart"}
 =====================================     
    
 Row {data-height=600}
@@ -129,9 +136,17 @@ Row {data-height=400}
 ```{r}
 ```
 
-行业分析 {data-icon="fa-list"}
+行业分析 {data-icon="fa-industry"}
 =====================================  
 
 
-历史价格 {data-icon="fa-list"}
+历史价格 {data-icon="fa-line-chart"}
+=====================================  
+
+
+金融模型 {data-icon="fa-diamond"}
+=====================================  
+
+
+实验室 {data-icon="fa-flask"}
 =====================================  
