@@ -1,0 +1,137 @@
+---
+title: "OWL Cloud"
+author: "Edward Lv"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    logo: owl_logo.png
+    css: styles.css
+    navbar:
+        - { title: "关于",icon: glyphicon glyphicon-list-alt,align: right }
+    runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+
+knitr::opts_chunk$set(echo = TRUE,fig.width=7, fig.height=5)
+
+load("../data_space/main_indicator.data")
+load("../data_space/balance_sheet.data")
+
+source("../functions/resource.R")
+options(digits = 8)
+
+m <- main_indicator %>% 
+    select(c(category,industry,证券代码,stock_cn_name,证券市场,基本每股收益)) %>%
+    filter(industry == '文教、工美、体育和娱乐用品制造业') %>%
+    na.omit(.) %>%
+    group_by(stock_cn_name) %>%
+    summarise(avg_eps = mean(基本每股收益)) %>%
+    arrange(desc(avg_eps))
+
+
+bs <- balance_sheet %>%
+    filter(证券代码 == "000005") %>%
+    top_n(5,报告年度) %>%
+    arrange(desc(报告年度))
+
+```
+
+财务分析 {data-icon="fa-list"}
+=====================================  
+    
+Inputs {.sidebar data-width=200 }
+-----------------------------------------------------------------------
+
+```{r,echo=FALSE}
+dataset<-cars
+sliderInput('sampleSize', 'Sample Size', min=1, max=nrow(dataset),
+            value=min(1000, nrow(dataset)), step=500, round=0)
+
+checkboxInput('jitter', 'Jitter', value = TRUE)
+checkboxInput('smooth', 'Smooth', value = TRUE)
+
+selectInput('x', 'X', names(dataset))
+selectInput('y', 'Y', names(dataset), names(dataset)[[2]])
+selectInput('color', 'Color', c('None', names(dataset)))
+
+radioButtons("dist", "Distribution type:",
+               c("Normal" = "norm",
+                 "Uniform" = "unif",
+                 "Log-normal" = "lnorm",
+                 "Exponential" = "exp"))
+
+```
+
+Column {.tabset .tabset-fade data-width=600}
+-------------------------------------
+    
+### 资产负债表
+  
+`r show_balance_sheet(bs)`
+
+### 现金流量表
+```{r}
+    2 + 4
+```
+   
+### 利润表
+```{r}
+    2 + 5
+```
+   
+Column {data-width=400}
+-------------------------------------
+   
+### 行业平均
+
+```{r, echo=FALSE}
+library(datasets)
+mtcars2 <- mtcars[, c("mpg", "cyl", "wt")]
+library(ggplot2)
+plotOutput("plot1", height = "100%")
+output$plot1 <- renderPlot({
+  ggplot(mtcars2, aes(wt, mpg)) + geom_point()
+})
+
+```
+ 
+### 科目同比
+    
+```{r,echo=FALSE}
+renderPlot({ggplot(mtcars2, aes(wt, mpg)) + geom_point()})
+```
+
+板块分析 {data-orientation=rows data-icon="glyphicon-time"}
+=====================================     
+   
+Row {data-height=600}
+-------------------------------------
+
+### Chart 1
+
+```{r}
+```
+
+Row {data-height=400}
+-------------------------------------
+   
+### Chart 2
+
+```{r}
+```   
+    
+### Chart 3
+
+```{r}
+```
+
+行业分析 {data-icon="fa-list"}
+=====================================  
+
+
+历史价格 {data-icon="fa-list"}
+=====================================  
