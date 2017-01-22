@@ -20,6 +20,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+
 library(knitr)
 library(dplyr)
 
@@ -47,12 +48,11 @@ bs <- balance_sheet %>%
 
 ```
 
-财务分析 {data-icon="fa-list"}
+财务报表 {data-icon="fa-list"}
 =====================================  
     
-Inputs {.sidebar data-width=200 }
+SiderBar {.sidebar data-width=200 }
 -----------------------------------------------------------------------
-
 ```{r,echo=FALSE}
 dataset<-cars
 sliderInput('sampleSize', 'Sample Size', min=1, max=nrow(dataset),
@@ -112,6 +112,10 @@ output$plot1 <- renderPlot({
 renderPlot({ggplot(mtcars2, aes(wt, mpg)) + geom_point()})
 ```
 
+
+财务指标 {data-icon="fa-area-chart"}
+=====================================  
+
 板块分析 {data-orientation=rows data-icon="fa-pie-chart"}
 =====================================     
    
@@ -135,6 +139,8 @@ Row {data-height=400}
 
 ```{r}
 ```
+
+
 
 行业分析 {data-icon="fa-industry"}
 =====================================  
